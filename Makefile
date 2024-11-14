@@ -5,6 +5,9 @@ run: build
 build:
 	@go build -o bin/main ./cmd
 
+daemon:
+	CompileDaemon -directory=cmd/ -color=true -build="go build -o ../bin/cmd" -command="./bin/cmd"
+
 migrate-up:
 	@migrate -path db/migrations -database $(DATABASE_URL) up
 
