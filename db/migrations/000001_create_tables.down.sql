@@ -1,4 +1,4 @@
--- Down Migration: Drop the products table and partitions
+-- Drop the products table and partitions
 DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS products_electronics;
 DROP TABLE IF EXISTS products_apparel;
