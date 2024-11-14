@@ -20,3 +20,8 @@ type OrderItem struct {
 	Quantity  int     `json:"quantity"`
 	Price     float64 `json:"price"`
 }
+
+type OrderEvent struct {
+	EventType string
+	Order     Order
+}

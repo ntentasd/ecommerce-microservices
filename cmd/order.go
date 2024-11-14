@@ -21,5 +21,12 @@ func (app *Application) createOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	event := models.OrderEvent{
+		EventType: "OrderCreated",
+		Order:     *order,
+	}
+
+	app.producer.SendOrderEvent(event, nil)
+
 	utils.FormatResponse(w, http.StatusCreated, utils.Envelope{"order": order})
 }

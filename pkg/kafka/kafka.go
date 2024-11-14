@@ -12,6 +12,7 @@ import (
 
 var (
 	ProductTopic = "ProductEvents"
+	OrderTopic   = "OrderEvents"
 )
 
 type Producer struct {
@@ -41,6 +42,28 @@ func (p *Producer) SendProductEvent(message any, key sarama.Encoder) error {
 
 	msg := &sarama.ProducerMessage{
 		Topic: ProductTopic,
+		Key:   key,
+		Value: sarama.ByteEncoder(jsonMsg),
+	}
+
+	go func() {
+		_, _, err = p.SendMessage(msg)
+		if err != nil {
+			slog.Error("Failed to send message", "error", err)
+		}
+	}()
+
+	return nil
+}
+
+func (p *Producer) SendOrderEvent(message any, key sarama.Encoder) error {
+	jsonMsg, err := json.Marshal(message)
+	if err != nil {
+		return fmt.Errorf("failed to marshal message: %w", err)
+	}
+
+	msg := &sarama.ProducerMessage{
+		Topic: OrderTopic,
 		Key:   key,
 		Value: sarama.ByteEncoder(jsonMsg),
 	}
