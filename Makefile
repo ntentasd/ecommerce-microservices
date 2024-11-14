@@ -2,8 +2,14 @@ run: build
 	@. .envrc
 	@./bin/main
 
+run-consumer: build-consumer
+	@./bin/consumer
+
 build:
 	@go build -o bin/main ./cmd
+
+build-consumer:
+	@go build -o bin/consumer ./consumer
 
 daemon:
 	CompileDaemon -directory=cmd/ -color=true -build="go build -o ../bin/cmd" -command="./bin/cmd"
