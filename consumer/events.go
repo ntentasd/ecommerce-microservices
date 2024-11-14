@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/ntentasd/ecommerce-microservices/models"
@@ -48,17 +49,19 @@ func (s *EventStore) Pop(eventType EventType) (models.Event, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	events, ok := s.data[eventType]
-	if !ok {
-		return nil, ErrEventTypeNotFound
+	if len(s.data[eventType]) == 0 {
+		return nil, fmt.Errorf("no events available for type: %v", eventType)
 	}
 
-	event := events[0]
-	s.data[eventType] = events[1:]
+	event := s.data[eventType][0]
+	s.data[eventType] = s.data[eventType][1:]
 
 	return event, nil
 }
 
 func (s *EventStore) IsEmpty(eventType EventType) bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
 	return len(s.data[eventType]) == 0
 }
