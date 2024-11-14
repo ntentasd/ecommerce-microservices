@@ -93,10 +93,11 @@ func (app *Application) createProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	event := models.ProductEvent{
-		EventType: "ProductCreated",
-		Product:   outProduct,
+		Type:    "ProductCreated",
+		Product: outProduct,
 	}
 
 	app.producer.SendProductEvent(event, nil)
+
 	utils.FormatResponse(w, http.StatusCreated, utils.Envelope{"product": outProduct})
 }

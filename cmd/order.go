@@ -22,8 +22,8 @@ func (app *Application) createOrder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	event := models.OrderEvent{
-		EventType: "OrderCreated",
-		Order:     *order,
+		Type:  "OrderCreated",
+		Order: *order,
 	}
 
 	app.producer.SendOrderEvent(event, nil)

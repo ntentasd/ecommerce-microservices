@@ -18,6 +18,14 @@ type ProductInput struct {
 }
 
 type ProductEvent struct {
-	EventType string
-	Product   Product
+	Type    string  `json:"type"`
+	Product Product `json:"product"`
+}
+
+func (e ProductEvent) GetType() string {
+	return e.Type
+}
+
+func (e ProductEvent) GetObject() interface{} {
+	return e.Product
 }

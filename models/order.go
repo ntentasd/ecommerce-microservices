@@ -22,6 +22,14 @@ type OrderItem struct {
 }
 
 type OrderEvent struct {
-	EventType string
-	Order     Order
+	Type  string `json:"type"`
+	Order Order  `json:"order"`
+}
+
+func (e OrderEvent) GetType() string {
+	return e.Type
+}
+
+func (e OrderEvent) GetObject() interface{} {
+	return e.Order
 }
