@@ -5,4 +5,13 @@ run: build
 build:
 	@go build -o bin/main ./cmd
 
-.PHONY: build run
+migrate-up:
+	@migrate -path db/migrations -database $(DATABASE_URL) up
+
+migrate-down:
+	@migrate -path db/migrations -database $(DATABASE_URL) down
+
+services:
+	@docker compose up -d
+
+.PHONY: build run migrate-up migrate-down services
