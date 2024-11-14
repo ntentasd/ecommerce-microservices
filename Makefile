@@ -23,4 +23,7 @@ migrate-down:
 services:
 	@docker compose up -d
 
-.PHONY: build run migrate-up migrate-down services
+services-down:
+	@docker compose down --remove-orphans
+
+.PHONY: build run migrate-up migrate-down services services-down
