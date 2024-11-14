@@ -13,6 +13,16 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: ecommerce
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - 9042:9042
+    restart: always
+    environment:
+      CASSANDRA_USER: cassandra
+      CASSANDRA_PASSWORD: password
+    volumes:
+      - cassandra_data:/var/lib/cassandra
   kafka:
     image: docker.io/bitnami/kafka:3.8
     ports:
@@ -32,4 +42,6 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
 volumes:
   kafka_data:
+    driver: local
+  cassandra_data:
     driver: local
